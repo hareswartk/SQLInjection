@@ -1,0 +1,12 @@
+try
+{
+	conn.Open();
+	SqlCommand cmd = new SqlCommand("setDescription", conn);
+	cmd.CommandType = CommadType.StoredProcedure;
+	cmd.Parameters.Add("@product", SqlDbType.Int).Value = Int32.parse(Request.QueryString["id"]);
+	cmd.Parameters.Add("@descript", SqlDbType.NVarChar, 255).Value = Request.QueryString["description"];
+	
+	cmd.ExecuteNonQuery();
+}
+catch {}
+finally {conn.Close();}	
