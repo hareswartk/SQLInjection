@@ -1,0 +1,36 @@
+try
+{
+    conn.Open();
+    SqlCommand cmd = new SqlCommand("setDescription", conn);
+    cmd.CommandType = CommandType.StoredProcedure;
+    
+    // Validate and sanitize the input
+    if (int.TryParse(Request.QueryString["id"], out int productId))
+    {
+        cmd.Parameters.Add("@product", SqlDbType.Int).Value = productId;
+    }
+    else
+    {
+        // Handle invalid input or log an error
+    }
+    
+    string description = Request.QueryString["description"];
+    if (!string.IsNullOrEmpty(description))
+    {
+        cmd.Parameters.Add("@descript", SqlDbType.NVarChar, 255).Value = description;
+    }
+    else
+    {
+        // Handle empty description or log an error
+    }
+    
+    cmd.ExecuteNonQuery();
+}
+catch (Exception ex)
+{
+    // Handle exceptions properly (e.g., log, display, or handle error)
+}
+finally
+{
+    conn.Close();
+}
